@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>엔젤인더모닝 | Angel in the Morning</title>
 <meta name="theme-color" content="#1c1c1c">
 <link rel="manifest" href="manifest.json">
@@ -664,14 +665,14 @@ try{if("serviceWorker" in navigator&&location.protocol==="https:"&&!location.hos
 
 /* ===== youtube video ===== */
 /* 여기에 유튜브 링크를 넣으면 모든 방문자에게 영상이 보여요 (watch?v=, youtu.be/, shorts/ 모두 가능) */
-const YOUTUBE_URL="";
+const YOUTUBE_URL="https://youtu.be/FFftvJGSEkQ";
 function ytId(u){u=String(u||"").trim();if(!u)return "";
   const m=u.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];
   return /^[A-Za-z0-9_-]{11}$/.test(u)?u:""}
 function renderVideo(){
   const box=document.getElementById("videoBox");if(!box)return;
   const id=ytId(YOUTUBE_URL)||ytId(load("ytUrl",""));
-  if(id){box.innerHTML=`<div class="vframe"><iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0" title="엔젤인더모닝 소개 영상" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+  if(id){box.innerHTML=`<div class="vframe"><iframe src="https://www.youtube.com/embed/${id}?rel=0&playsinline=1${location.protocol.startsWith("http")?"&origin="+encodeURIComponent(location.origin):""}" referrerpolicy="strict-origin-when-cross-origin" title="엔젤인더모닝 소개 영상" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
     <p class="note" style="text-align:center;margin-top:10px">영상이 안 보이면 → <a href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">유튜브에서 보기</a>${!ytId(YOUTUBE_URL)?` · <a href="#" onclick="save('ytUrl','');renderVideo();return false">링크 지우기</a>`:""}</p>`;return}
   box.innerHTML=`<div class="vempty"><div style="font-size:40px">▶️</div><b>소개 영상 준비 중이에요</b>
     <div class="row" style="width:100%;max-width:460px;justify-content:center"><input id="ytIn" placeholder="유튜브 링크 붙여넣기 (예: https://youtu.be/...)" style="flex:1;min-width:200px"><button class="btn sm" onclick="setYt()">영상 넣기</button></div>
